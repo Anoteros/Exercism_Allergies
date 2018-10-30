@@ -43,6 +43,7 @@ class Allergies
   end
 
   def list
+    @active_allergies
   end
 
 end
