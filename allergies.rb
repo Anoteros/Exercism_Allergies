@@ -18,7 +18,14 @@ class Allergies
   end
 
   def allergic_to?(allergen)
-    determine_allergies
+    loop do
+      if @number > 0
+        determine_allergies
+      else
+        break
+      end
+    end
+
     @active_allergies.include?(allergen)
   end
 
@@ -27,19 +34,18 @@ class Allergies
   # Subtract it, add that key to the active_allergies array and repeat.
 
   def determine_allergies
-    @allergens.each_with_index do |val, index|
+    @allergens.each_with_index do |(allergen_name, allergen_value), index|
       keys = @allergens.keys
-        if @number <= val[1] && @number > 0
+        if @number < allergen_value && @number > 0
           @active_allergies << keys[index - 1]
-          @number = @number - val[1]
-        elsif @number == val[1]
+          @number = @number - @allergens[keys[index - 1]]
+          break
+        elsif @number == allergen_value
           @active_allergies << keys[index]
-          @number = @number - val[1]
+          @number = @number - allergen_value
           break
         end
      end
-    puts @number
-    puts @active_allergies
   end
 
   def list
